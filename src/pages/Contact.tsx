@@ -187,6 +187,16 @@ const Contact = () => {
                   <div className="flex items-center">
                     <Phone className="w-5 h-5 text-primary mr-3" />
                     <div>
+                      <p className="font-semibold">Phone</p>
+                      <a href="tel:+916305995805" className="text-muted-foreground hover:text-primary transition-colors">
+                        +91 63059 95805
+                      </a>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <Phone className="w-5 h-5 text-primary mr-3" />
+                    <div>
                       <p className="font-semibold">Response Time</p>
                       <p className="text-muted-foreground">Within 24 hours</p>
                     </div>

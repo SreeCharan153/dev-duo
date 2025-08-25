@@ -35,14 +35,14 @@ const Home = () => {
   const founders = [
     {
       name: 'TV Sathwik Sai',
-      image: '/lovable-uploads/10c986ba-e64c-4f36-b0f7-3c31e81c6649.png',
+      image: '/images/10c986ba-e64c-4f36-b0f7-3c31e81c6649.png',
       linkedin: 'https://www.linkedin.com/in/sathwik-sai-t-v-ba202830a',
       instagram: 'https://www.instagram.com/sathwik__s_a_i__',
       email: 'mailto:devduocompany@gmail.com'
     },
     {
       name: 'MD Ansar Vali',
-      image: '/lovable-uploads/0250e237-9743-4be2-b11b-1f501eea372d.png',
+      image: '/images/0250e237-9743-4be2-b11b-1f501eea372d.png',
       linkedin: 'https://www.linkedin.com/in/mohammad-ansar-vali-80b099317',
       instagram: 'https://www.instagram.com/_kakashi_3_',
       email: 'mailto:devduocompany@gmail.com'

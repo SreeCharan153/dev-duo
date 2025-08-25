@@ -72,6 +72,7 @@ const Footer = () => {
                   <Link
                     to={link.href}
                     className="text-[hsl(290,10%,70%)] hover:text-[hsl(285,100%,75%)] transition-colors duration-300 flex items-center group"
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     <span className="w-2 h-2 rounded-full bg-[hsl(285,100%,55%,0)] group-hover:bg-[hsl(285,100%,55%,0.5)] mr-3 transition-all duration-300" />
                     {link.name}
@@ -89,6 +90,7 @@ const Footer = () => {
                   <Link
                     to={link.href}
                     className="text-[hsl(290,10%,70%)] hover:text-[hsl(285,100%,75%)] transition-colors duration-300 flex items-center group"
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     <span className="w-2 h-2 rounded-full bg-[hsl(285,100%,55%,0)] group-hover:bg-[hsl(285,100%,55%,0.5)] mr-3 transition-all duration-300" />
                     {link.name}
@@ -118,11 +120,11 @@ const Footer = () => {
                 <Phone className="w-5 h-5 text-[hsl(285,100%,75%)] mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-[hsl(290,10%,70%)] text-sm">Phone</p>
-                  <a 
-                    href="tel:+919000000000" 
+                  <a
+                    href="tel:+916305995805"
                     className="text-[hsl(300,20%,95%)] hover:text-[hsl(285,100%,75%)] transition-colors"
                   >
-                    +91 90000 00000
+                    +91 63059 95805
                   </a>
                 </div>
               </div>
@@ -166,15 +168,17 @@ const Footer = () => {
             </p>
             
             <div className="flex space-x-6">
-              <Link 
-                to="/privacy" 
+              <Link
+                to="/privacy"
                 className="text-[hsl(290,10%,70%)] hover:text-[hsl(285,100%,75%)] text-sm transition-colors"
+                onClick={() => window.scrollTo(0, 0)}
               >
                 Privacy Policy
               </Link>
-              <Link 
-                to="/terms" 
+              <Link
+                to="/terms"
                 className="text-[hsl(290,10%,70%)] hover:text-[hsl(285,100%,75%)] text-sm transition-colors"
+                onClick={() => window.scrollTo(0, 0)}
               >
                 Terms of Service
               </Link>

@@ -1,22 +1,16 @@
-# Welcome to your Lovable project
+# DEV DUO Project
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/3466baf2-1144-4e6c-bcb7-7c508704ee77
+This is the official repository for DEV DUO, a creative tech solutions company.
 
 ## How can I edit this code?
 
 There are several ways of editing your application.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/3466baf2-1144-4e6c-bcb7-7c508704ee77) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -48,7 +42,7 @@ npm run dev
 - Click on the "Code" button (green button) near the top right.
 - Select the "Codespaces" tab.
 - Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Edit files directly within the Codespaces and commit and push your changes once you're done.
 
 ## What technologies are used for this project?
 
@@ -62,12 +56,10 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/3466baf2-1144-4e6c-bcb7-7c508704ee77) and click on Share -> Publish.
+You can deploy this project to any static hosting service like Vercel, Netlify, or GitHub Pages.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain to this project?
 
 Yes, you can!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+To connect a domain, you'll need to configure DNS settings with your domain registrar and set up the domain with your hosting provider.

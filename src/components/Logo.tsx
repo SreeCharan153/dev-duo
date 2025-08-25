@@ -16,8 +16,8 @@ const sizeClasses = {
 export const Logo = ({ className, size = 'md', animated = false }: LogoProps) => {
   return (
     <div className={cn('relative', sizeClasses[size], className)}>
-      <img 
-        src="/lovable-uploads/logo.png" 
+      <img
+        src="/images/logo.png"
         alt="DEV DUO Logo"
         className={cn(
           'w-full h-full object-contain',
