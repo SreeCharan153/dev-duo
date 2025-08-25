@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, FileText, MessageSquare, Settings, BarChart3, Shield } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import ContactMessages from '@/components/admin/ContactMessages';
 
 const Admin = () => {
   const { user, signOut } = useAuth();
+  const [activeSection, setActiveSection] = useState('dashboard');
 
   if (!user) {
     return (
@@ -38,14 +40,90 @@ const Admin = () => {
     { title: 'User Management', icon: Users, description: 'Manage user accounts and permissions' },
     { title: 'Content Management', icon: FileText, description: 'Update projects and portfolio content' },
     { title: 'Feedback Review', icon: MessageSquare, description: 'Review and respond to client feedback' },
+    { title: 'Contact Messages', icon: MessageSquare, description: 'View and manage contact messages', action: () => setActiveSection('contact-messages') },
     { title: 'System Settings', icon: Settings, description: 'Configure system preferences' },
   ];
+
+  const renderActiveSection = () => {
+    switch (activeSection) {
+      case 'contact-messages':
+        return <ContactMessages />;
+      default:
+        return (
+          <>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {adminStats.map((stat, index) => (
+                <Card key={index} className="glass-card hover:shadow-neon transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-foreground/60 mb-1">{stat.title}</p>
+                        <p className="text-2xl font-bold cyber-text">{stat.value}</p>
+                      </div>
+                      <stat.icon className={`w-8 h-8 ${stat.color}`} />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {quickActions.map((action, index) => (
+                <Card
+                  key={index}
+                  className="glass-card hover:shadow-cyber transition-all duration-300 cursor-pointer group"
+                  onClick={action.action}
+                >
+                  <CardHeader className="text-center">
+                    <action.icon className="w-12 h-12 mx-auto mb-4 text-primary group-hover:text-primary-glow transition-colors" />
+                    <CardTitle className="text-lg">{action.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-foreground/70 text-center">{action.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Recent Activity */}
+            <Card className="glass-card">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <BarChart3 className="w-5 h-5 mr-2" />
+                  Recent Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {[
+                    { action: 'New user registration', time: '2 minutes ago', type: 'user' },
+                    { action: 'Project updated', time: '15 minutes ago', type: 'project' },
+                    { action: 'Feedback received', time: '1 hour ago', type: 'feedback' },
+                    { action: 'System backup completed', time: '2 hours ago', type: 'system' },
+                  ].map((activity, index) => (
+                    <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                        <span className="text-foreground">{activity.action}</span>
+                      </div>
+                      <span className="text-sm text-foreground/60">{activity.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </>
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen cyber-background pt-20">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div className="flex items-center space-x-4">
             <Logo size="md" />
             <div>
@@ -53,71 +131,34 @@ const Admin = () => {
               <p className="text-foreground/80">Welcome back, {user.email}</p>
             </div>
           </div>
-          <Button onClick={signOut} variant="outline" className="neon-border">
-            <Shield className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={activeSection === 'dashboard' ? 'default' : 'outline'}
+              onClick={() => setActiveSection('dashboard')}
+              className="neon-border"
+            >
+              Dashboard
+            </Button>
+            <Button
+              variant={activeSection === 'contact-messages' ? 'default' : 'outline'}
+              onClick={() => setActiveSection('contact-messages')}
+              className="neon-border"
+            >
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Messages
+            </Button>
+            <Button onClick={signOut} variant="outline" className="neon-border">
+              <Shield className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {adminStats.map((stat, index) => (
-            <Card key={index} className="glass-card hover:shadow-neon transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-foreground/60 mb-1">{stat.title}</p>
-                    <p className="text-2xl font-bold cyber-text">{stat.value}</p>
-                  </div>
-                  <stat.icon className={`w-8 h-8 ${stat.color}`} />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Main Content */}
+        <div className="mt-8">
+          {renderActiveSection()}
         </div>
-
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {quickActions.map((action, index) => (
-            <Card key={index} className="glass-card hover:shadow-cyber transition-all duration-300 cursor-pointer group">
-              <CardHeader className="text-center">
-                <action.icon className="w-12 h-12 mx-auto mb-4 text-primary group-hover:text-primary-glow transition-colors" />
-                <CardTitle className="text-lg">{action.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-foreground/70 text-center">{action.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Recent Activity */}
-        <Card className="glass-card">
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <BarChart3 className="w-5 h-5 mr-2" />
-              Recent Activity
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[
-                { action: 'New user registration', time: '2 minutes ago', type: 'user' },
-                { action: 'Project updated', time: '15 minutes ago', type: 'project' },
-                { action: 'Feedback received', time: '1 hour ago', type: 'feedback' },
-                { action: 'System backup completed', time: '2 hours ago', type: 'system' },
-              ].map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-background/50 border border-primary/20">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                    <span className="text-foreground">{activity.action}</span>
-                  </div>
-                  <span className="text-sm text-foreground/60">{activity.time}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
