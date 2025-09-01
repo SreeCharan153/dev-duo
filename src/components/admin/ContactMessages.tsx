@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { MessageSquare, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { MessageSquare, Clock, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 import { Tables } from '@/integrations/supabase/types';
 
 type ContactMessage = Tables<'contact_messages'>;
@@ -43,8 +43,8 @@ const ContactMessages = () => {
 
       if (error) throw error;
       
-      // Update local state
-      setMessages(messages.map(msg => 
+      // Update local state immediately
+      setMessages(prev => prev.map(msg => 
         msg.id === id ? { ...msg, status } : msg
       ));
       
@@ -53,6 +53,63 @@ const ContactMessages = () => {
       }
     } catch (error) {
       console.error('Error updating message status:', error);
+    }
+  };
+
+  const deleteMessage = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this message? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      console.log('Attempting to delete message with ID:', id);
+      
+      // First check if user has admin permissions
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
+        .single();
+
+      if (profileError) {
+        console.error('Error checking user profile:', profileError);
+        throw new Error('Unable to verify admin permissions');
+      }
+
+      if (!profile || !['admin', 'founder'].includes(profile.role)) {
+        throw new Error('Insufficient permissions to delete messages');
+      }
+      
+      const { error } = await supabase
+        .from('contact_messages')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.error('Supabase delete error:', error);
+        throw error;
+      }
+      
+      console.log('Message deleted successfully from database');
+      
+      // Update local state immediately
+      setMessages(prev => {
+        const updated = prev.filter(msg => msg.id !== id);
+        console.log('Updated messages count:', updated.length);
+        return updated;
+      });
+      
+      // Clear selection if deleted message was selected
+      if (selectedMessage && selectedMessage.id === id) {
+        setSelectedMessage(null);
+      }
+      
+      alert('Message deleted successfully!');
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      alert(`Error deleting message: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      // Refresh on error to ensure consistency
+      await fetchMessages();
     }
   };
 
@@ -83,7 +140,7 @@ const ContactMessages = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Messages List */}
       <div className="lg:col-span-1">
-        <Card className="glass-card">
+        <Card className="glass-card admin-card">
           <CardHeader>
             <CardTitle className="flex items-center">
               <MessageSquare className="w-5 h-5 mr-2" />
@@ -100,6 +157,7 @@ const ContactMessages = () => {
                     selectedMessage?.id === message.id ? 'bg-accent' : ''
                   }`}
                   onClick={() => setSelectedMessage(message)}
+                  style={{ pointerEvents: 'auto' }}
                 >
                   <div className="flex justify-between items-start">
                     <div className="font-medium">{message.name}</div>
@@ -127,7 +185,7 @@ const ContactMessages = () => {
       {/* Message Detail */}
       <div className="lg:col-span-2">
         {selectedMessage ? (
-          <Card className="glass-card">
+          <Card className="glass-card admin-card">
             <CardHeader>
               <div className="flex justify-between items-start">
                 <div>
@@ -173,11 +231,19 @@ const ContactMessages = () => {
                   <XCircle className="w-4 h-4 mr-2" />
                   Archive
                 </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => deleteMessage(selectedMessage.id)}
+                  className="ml-auto"
+                >
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Delete Message
+                </Button>
               </div>
             </CardContent>
           </Card>
         ) : (
-          <Card className="glass-card h-full flex items-center justify-center">
+          <Card className="glass-card admin-card h-full flex items-center justify-center">
             <CardContent className="text-center">
               <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">Select a message to view details</p>
