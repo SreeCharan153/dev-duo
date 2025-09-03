@@ -6,13 +6,25 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // List of authorized admin emails
+  const authorizedAdminEmails = ['ansavali3231@gmail.com', 'tvsathwiksaii@gmail.com'];
+
+  // Function to check if a user is an authorized admin
+  const isAuthorizedAdmin = (email: string | undefined): boolean => {
+    if (!email) return false;
+    return authorizedAdminEmails.includes(email.toLowerCase());
+  };
 
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session);
-        setUser(session?.user ?? null);
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        setIsAdmin(isAuthorizedAdmin(currentUser?.email));
         setLoading(false);
       }
     );
@@ -20,7 +32,9 @@ export const useAuth = () => {
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setUser(session?.user ?? null);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      setIsAdmin(isAuthorizedAdmin(currentUser?.email));
       setLoading(false);
     });
 
@@ -60,5 +74,7 @@ export const useAuth = () => {
     signIn,
     signUp,
     signOut,
+    isAdmin,
+    isAuthorizedAdmin,
   };
 };

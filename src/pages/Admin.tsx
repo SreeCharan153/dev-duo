@@ -8,9 +8,10 @@ import { Logo } from '@/components/Logo';
 import ContactMessages from '@/components/admin/ContactMessages';
 import ProjectManagement from '@/components/admin/ProjectManagement';
 import TestimonialManagement from '@/components/admin/TestimonialManagement';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, isAdmin } = useAuth();
   const [activeSection, setActiveSection] = useState('dashboard');
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -20,12 +21,16 @@ const Admin = () => {
   });
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    // Redirect if not authorized
+    if (user && !isAdmin) {
+      navigate('/');
+    } else if (user && isAdmin) {
       fetchDashboardData();
     }
-  }, [user]);
+  }, [user, isAdmin, navigate]);
 
   const fetchDashboardData = async () => {
     try {
@@ -114,7 +119,7 @@ const Admin = () => {
     return `${Math.floor(diffInMinutes / 1440)} days ago`;
   };
 
-  if (!user) {
+  if (!user || !isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center cyber-background">
         <Card className="glass-card w-full max-w-md">
@@ -123,10 +128,26 @@ const Admin = () => {
             <CardTitle className="cyber-text">Admin Access Required</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-foreground/80 mb-6">Please authenticate to access the admin panel</p>
-            <Button className="btn-gradient w-full">
-              Login to Admin Panel
-            </Button>
+            {!user ? (
+              <>
+                <p className="text-foreground/80 mb-6">Please authenticate to access the admin panel</p>
+                <Button className="btn-gradient w-full" onClick={() => navigate('/auth')}>
+                  Login to Admin Panel
+                </Button>
+              </>
+            ) : (
+              <>
+                <p className="text-foreground/80 mb-6">
+                  Sorry, your account ({user.email}) does not have admin access.
+                </p>
+                <p className="text-foreground/60 mb-6 text-sm">
+                  Only authorized email addresses can access this panel.
+                </p>
+                <Button className="btn-gradient w-full" onClick={() => navigate('/')}>
+                  Return to Homepage
+                </Button>
+              </>
+            )}
           </CardContent>
         </Card>
       </div>
