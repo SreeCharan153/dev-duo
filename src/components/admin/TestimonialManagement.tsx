@@ -204,19 +204,19 @@ const TestimonialManagement = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold cyber-text">Testimonial Management</h2>
+          <h2 className="text-2xl font-bold">Testimonial Management</h2>
           <p className="text-foreground/70">Manage client testimonials and feedback</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="btn-gradient">
+            <Button onClick={resetForm} className="bg-primary hover:bg-primary/90 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add Testimonial
             </Button>
           </DialogTrigger>
-          <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="bg-background border border-border max-w-2xl max-h-[90vh] overflow-y-auto shadow-lg rounded-lg">
             <DialogHeader>
-              <DialogTitle className="cyber-text">
+              <DialogTitle className="font-semibold">
                 {editingTestimonial ? 'Edit Testimonial' : 'Add New Testimonial'}
               </DialogTitle>
             </DialogHeader>
@@ -229,7 +229,7 @@ const TestimonialManagement = () => {
                     value={formData.client_name}
                     onChange={(e) => setFormData(prev => ({ ...prev, client_name: e.target.value }))}
                     required
-                    className="neon-border"
+                    className="border-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
                 <div>
@@ -239,7 +239,7 @@ const TestimonialManagement = () => {
                     type="email"
                     value={formData.client_email}
                     onChange={(e) => setFormData(prev => ({ ...prev, client_email: e.target.value }))}
-                    className="neon-border"
+                    className="border-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
               </div>
@@ -251,29 +251,24 @@ const TestimonialManagement = () => {
                     id="project_title"
                     value={formData.project_title}
                     onChange={(e) => setFormData(prev => ({ ...prev, project_title: e.target.value }))}
-                    className="neon-border"
+                    className="border-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="rating">Rating *</Label>
-                  <div className="flex items-center space-x-2">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setFormData(prev => ({ ...prev, rating: i + 1 }))}
-                        className="focus:outline-none"
-                      >
-                        <Star
-                          className={`w-6 h-6 transition-colors ${
-                            i < formData.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 hover:text-yellow-200'
-                          }`}
-                        />
-                      </button>
-                    ))}
-                    <span className="ml-2 text-sm text-foreground/70">({formData.rating}/5)</span>
-                  </div>
+                <Label htmlFor="rating">Rating *</Label>
+                <div className="flex items-center space-x-1 mt-1.5">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Button
+                      key={star}
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, rating: star }))}
+                      className={`h-10 w-10 p-0 ${formData.rating >= star ? 'bg-yellow-400 hover:bg-yellow-500 text-black' : 'bg-muted hover:bg-muted/80'}`}
+                    >
+                      <Star className={`h-5 w-5 ${formData.rating >= star ? 'fill-current' : ''}`} />
+                    </Button>
+                  ))}
                 </div>
+              </div>
               </div>
 
               <div>
@@ -284,7 +279,7 @@ const TestimonialManagement = () => {
                   onChange={(e) => setFormData(prev => ({ ...prev, feedback: e.target.value }))}
                   required
                   rows={4}
-                  className="neon-border"
+                  className="border-input focus:ring-2 focus:ring-primary/20"
                   placeholder="Share the client's feedback about your work..."
                 />
               </div>
@@ -296,21 +291,26 @@ const TestimonialManagement = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) => setFormData(prev => ({ ...prev, image_file: e.target.files?.[0] || null }))}
-                  className="neon-border"
+                  className="border-input focus:ring-2 focus:ring-primary/20"
                 />
                 {editingTestimonial?.client_image_url && (
                   <p className="text-sm text-foreground/60 mt-1">Current photo will be replaced if new file is selected</p>
                 )}
               </div>
 
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
+              <div className="flex justify-end space-x-2 pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                  className="border-input hover:bg-muted/50 transition-colors"
+                >
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
                   disabled={uploading || !formData.client_name.trim() || !formData.feedback.trim()} 
-                  className="btn-gradient"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   {uploading ? (
                     <>
@@ -332,7 +332,7 @@ const TestimonialManagement = () => {
       {/* Testimonials Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {testimonials.map((testimonial) => (
-          <Card key={testimonial.id} className="glass-card admin-card hover:shadow-neon transition-all duration-300">
+          <Card key={testimonial.id} className="border border-border bg-card shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex items-center space-x-3">
@@ -348,7 +348,7 @@ const TestimonialManagement = () => {
                     </div>
                   )}
                   <div>
-                    <CardTitle className="text-lg cyber-text">{testimonial.client_name}</CardTitle>
+                    <CardTitle className="text-lg font-semibold">{testimonial.client_name}</CardTitle>
                     {testimonial.project_title && (
                       <p className="text-sm text-foreground/60">{testimonial.project_title}</p>
                     )}
@@ -392,14 +392,14 @@ const TestimonialManagement = () => {
       </div>
 
       {testimonials.length === 0 && (
-        <Card className="glass-card">
+        <Card className="border border-border bg-card shadow-sm">
           <CardContent className="text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
               <Star className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-lg font-semibold mb-2">No Testimonials Yet</h3>
             <p className="text-foreground/60 mb-4">Start collecting client feedback to showcase your work</p>
-            <Button onClick={() => setIsDialogOpen(true)} className="btn-gradient">
+            <Button onClick={() => setIsDialogOpen(true)} className="bg-primary hover:bg-primary/90 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add Your First Testimonial
             </Button>

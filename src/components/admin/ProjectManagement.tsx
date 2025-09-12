@@ -221,19 +221,19 @@ const ProjectManagement = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold cyber-text">Project Management</h2>
+          <h2 className="text-2xl font-bold">Project Management</h2>
           <p className="text-foreground/70">Manage your portfolio projects</p>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="btn-gradient">
+            <Button onClick={resetForm} className="bg-primary hover:bg-primary/90 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add Project
             </Button>
           </DialogTrigger>
-          <DialogContent className="glass-card max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="bg-background border border-border max-w-2xl max-h-[90vh] overflow-y-auto shadow-lg rounded-lg">
             <DialogHeader>
-              <DialogTitle className="cyber-text">
+              <DialogTitle className="font-semibold">
                 {editingProject ? 'Edit Project' : 'Add New Project'}
               </DialogTitle>
             </DialogHeader>
@@ -246,13 +246,13 @@ const ProjectManagement = () => {
                     value={formData.title}
                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                     required
-                    className="neon-border"
+                    className="border-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
                 <div>
                   <Label htmlFor="category">Category *</Label>
                   <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
-                    <SelectTrigger className="neon-border">
+                    <SelectTrigger className="border-input focus:ring-2 focus:ring-primary/20">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -274,7 +274,7 @@ const ProjectManagement = () => {
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   required
                   rows={4}
-                  className="neon-border"
+                  className="border-input focus:ring-2 focus:ring-primary/20"
                 />
               </div>
 
@@ -286,7 +286,7 @@ const ProjectManagement = () => {
                   value={formData.project_url}
                   onChange={(e) => setFormData(prev => ({ ...prev, project_url: e.target.value }))}
                   placeholder="https://..."
-                  className="neon-border"
+                  className="border-input focus:ring-2 focus:ring-primary/20"
                 />
               </div>
 
@@ -297,7 +297,7 @@ const ProjectManagement = () => {
                   type="file"
                   accept="image/*"
                   onChange={(e) => setFormData(prev => ({ ...prev, image_file: e.target.files?.[0] || null }))}
-                  className="neon-border"
+                  className="border-input focus:ring-2 focus:ring-primary/20"
                 />
                 {editingProject?.image_url && (
                   <p className="text-sm text-foreground/60 mt-1">Current image will be replaced if new file is selected</p>
@@ -314,7 +314,7 @@ const ProjectManagement = () => {
                       variant={formData.technologies.includes(tech) ? "default" : "outline"}
                       size="sm"
                       onClick={() => handleTechnologyToggle(tech)}
-                      className="justify-start"
+                      className="justify-start hover:bg-primary/10 transition-colors"
                     >
                       {tech}
                     </Button>
@@ -329,7 +329,7 @@ const ProjectManagement = () => {
                 <Button 
                   type="submit" 
                   disabled={uploading || !formData.title.trim() || !formData.description.trim()} 
-                  className="btn-gradient"
+                  className="bg-primary hover:bg-primary/90 text-white"
                 >
                   {uploading ? (
                     <>
@@ -351,7 +351,7 @@ const ProjectManagement = () => {
       {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
-          <Card key={project.id} className="glass-card admin-card hover:shadow-neon transition-all duration-300">
+          <Card key={project.id} className="border border-border bg-card shadow-sm hover:shadow-md transition-all duration-300">
             <CardHeader className="pb-3">
               {project.image_url && (
                 <div className="w-full h-48 mb-4 rounded-lg overflow-hidden">
@@ -364,17 +364,17 @@ const ProjectManagement = () => {
               )}
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <CardTitle className="text-lg cyber-text">{project.title}</CardTitle>
+                  <CardTitle className="text-lg font-semibold">{project.title}</CardTitle>
                   <Badge variant="secondary" className="mt-2">
                     <Tag className="w-3 h-3 mr-1" />
                     {categories.find(c => c.value === project.category)?.label || project.category}
                   </Badge>
                 </div>
                 <div className="flex space-x-1">
-                  <Button size="sm" variant="outline" onClick={() => openEditDialog(project)}>
+                  <Button size="sm" variant="outline" onClick={() => openEditDialog(project)} className="hover:bg-primary/10">
                     <Edit className="w-3 h-3" />
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleDelete(project.id)}>
+                  <Button size="sm" variant="outline" onClick={() => handleDelete(project.id)} className="hover:bg-destructive/10">
                     <Trash2 className="w-3 h-3" />
                   </Button>
                 </div>
@@ -425,14 +425,14 @@ const ProjectManagement = () => {
       </div>
 
       {projects.length === 0 && (
-        <Card className="glass-card">
+        <Card className="border border-border shadow-sm">
           <CardContent className="text-center py-12">
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
               <Plus className="w-8 h-8 text-primary" />
             </div>
             <h3 className="text-lg font-semibold mb-2">No Projects Yet</h3>
             <p className="text-foreground/60 mb-4">Start building your portfolio by adding your first project</p>
-            <Button onClick={() => setIsDialogOpen(true)} className="btn-gradient">
+            <Button onClick={() => setIsDialogOpen(true)} className="bg-primary hover:bg-primary/90 text-white">
               <Plus className="w-4 h-4 mr-2" />
               Add Your First Project
             </Button>
