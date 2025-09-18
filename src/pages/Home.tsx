@@ -1,6 +1,6 @@
 import { FounderCard } from '@/components/FounderCard';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Code, Smartphone, Megaphone, Palette } from 'lucide-react';
+import { ArrowRight, Code, Smartphone, Megaphone, Palette, Cpu, Video } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Background3D from '@/components/Background3D';
 
@@ -29,6 +29,18 @@ const Home = () => {
       title: 'Graphic Design',
       description: 'Holographic visuals and cyber-aesthetic design systems',
       color: 'from-secondary to-primary'
+    },
+    {
+      icon: Cpu,
+      title: 'PCB Designing',
+      description: 'Custom circuit board design and prototyping services',
+      color: 'from-primary to-accent'
+    },
+    {
+      icon: Video,
+      title: 'Video Editing',
+      description: 'Professional video production and post-processing',
+      color: 'from-accent to-secondary'
     }
   ];
 
@@ -81,14 +93,14 @@ const Home = () => {
               <Link to="/projects">
                 <Button className="btn-gradient group text-lg px-12 py-6">
                   <span className="flex items-center">
-                    Initialize Projects
+                    Our Projects
                     <ArrowRight className="ml-3 group-hover:translate-x-2 transition-transform" size={24} />
                   </span>
                 </Button>
               </Link>
               <Link to="/contact">
                 <Button className="btn-neon text-lg px-12 py-6">
-                  Connect to System
+                  Connect With Us
                 </Button>
               </Link>
             </div>
