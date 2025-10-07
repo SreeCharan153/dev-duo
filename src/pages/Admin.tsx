@@ -9,6 +9,7 @@ import ContactMessages from '@/components/admin/ContactMessages';
 import ProjectManagement from '@/components/admin/ProjectManagement';
 import TestimonialManagement from '@/components/admin/TestimonialManagement';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const Admin = () => {
   const { user, signOut, isAdmin } = useAuth();
@@ -295,6 +296,14 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen cyber-background pt-20">
+      <Helmet>
+      <title>Admin Dashboard | DevDuo</title>
+      <meta
+      name="description"
+      content="Access the DevDuo admin dashboard to manage projects, clients, and internal settings."
+      />
+      </Helmet>
+
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">

@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Phone, MapPin, Send, Linkedin, Instagram } from 'lucide-react';
 import Background3D from '@/components/Background3D';
+import { Helmet } from 'react-helmet-async';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -78,6 +79,14 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen pt-24 relative">
+      <Helmet>
+      <title>Contact DevDuo — Let&apos;s Work Together</title>
+      <meta
+        name="description"
+        content="Get in touch with DevDuo for collaboration, project inquiries, or partnership opportunities."
+      />
+      </Helmet>
+
       <Background3D intensity="low" />
       {/* Hero Section */}
       <section className="py-20 px-4">

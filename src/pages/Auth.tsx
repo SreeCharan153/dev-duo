@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
 
 const Auth = () => {
@@ -88,6 +89,14 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 pt-24">
+      <Helmet>
+      <title>Login / Signup | DevDuo</title>
+      <meta
+        name="description"
+        content="Sign in or register to access your DevDuo account and manage your projects."
+      />
+      </Helmet>
+
       <div className="project-card bg-card p-8 w-full max-w-md animate-fade-in-up">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">

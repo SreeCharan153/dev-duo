@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
+import { Helmet } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,17 +29,22 @@ const App = () => {
     setIsLoading(false);
   };
 
+  // Trigger event for prerender plugin
+  useEffect(() => {
+    document.dispatchEvent(new Event("render-complete"));
+  }, []);
+
   if (isLoading) {
     switch (loadingConfig.type) {
-      case 'video':
+      case "video":
         return (
-          <VideoLoadingScreen 
+          <VideoLoadingScreen
             onComplete={handleLoadingComplete}
             videoSrc={loadingConfig.video?.src}
             poster={loadingConfig.video?.poster}
           />
         );
-      case 'default':
+      case "default":
       default:
         return <LoadingScreen onComplete={handleLoadingComplete} />;
     }
@@ -50,6 +56,38 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+        <Helmet>
+        <title>DevDuo — Modern Web & App Development</title>
+        <meta
+        name="description"
+        content="DevDuo builds high-performance web and mobile applications for startups and enterprises."
+        />
+        <meta
+        name="keywords"
+        content="DevDuo, web development, mobile apps, Vite, React, software agency"
+        />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:title" content="DevDuo — Modern Web & App Development" />
+        <meta
+        property="og:description"
+        content="DevDuo builds high-performance web and mobile applications for startups and enterprises."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.devduo.dev/" />
+        <meta property="og:image" content="https://www.devduo.dev/og-image.png" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="DevDuo — Modern Web & App Development" />
+        <meta
+        name="twitter:description"
+        content="DevDuo builds high-performance web and mobile applications for startups and enterprises."
+        />
+        <meta name="twitter:image" content="https://www.devduo.dev/og-image.png" />
+        </Helmet>
+
+
           <div className="min-h-screen flex flex-col">
             <CustomCursor />
             <Navigation />
@@ -62,7 +100,6 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/admin" element={<Admin />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

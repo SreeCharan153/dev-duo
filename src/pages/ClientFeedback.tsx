@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { FeedbackCard } from '@/components/FeedbackCard';
 import { Loader2, AlertCircle, Star } from 'lucide-react';
 import Background3D from '@/components/Background3D';
+import { Helmet } from 'react-helmet-async';
 
 interface Feedback {
   id: string;
@@ -98,6 +99,14 @@ const ClientFeedback = () => {
 
   return (
     <div className="min-h-screen pt-24 relative">
+      <Helmet>
+      <title>Client Feedback | DevDuo</title>
+      <meta
+        name="description"
+        content="Read what our clients have to say about working with DevDuo and our web & app development services."
+      />
+      </Helmet>
+
       <Background3D intensity="low" />
       {/* Hero Section */}
       <section className="py-20 px-4">

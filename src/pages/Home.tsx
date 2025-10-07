@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Code, Smartphone, Megaphone, Palette, Cpu, Video } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Background3D from '@/components/Background3D';
+import { Helmet } from 'react-helmet-async';
 
 const Home = () => {
   const services = [
@@ -63,6 +64,13 @@ const Home = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      <Helmet>
+      <title>DevDuo | Web & App Development Agency</title>
+      <meta
+      name="description"
+      content="We design and develop custom web and mobile solutions using React, Vite, and scalable cloud infrastructure."
+      />
+      </Helmet>
       <Background3D intensity="medium" />
       {/* Hero Section */}
       <section className="pt-40 pb-32 px-4 relative">

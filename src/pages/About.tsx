@@ -1,5 +1,6 @@
 import { Users, Target, Award, Heart } from 'lucide-react';
 import Background3D from '@/components/Background3D';
+import { Helmet } from 'react-helmet-async';
 
 const About = () => {
   const values = [
@@ -27,6 +28,13 @@ const About = () => {
 
   return (
     <div className="min-h-screen pt-24 relative">
+      <Helmet>
+      <title>About DevDuo — Who We Are</title>
+      <meta
+      name="description"
+      content="DevDuo is a team of creative engineers and designers building modern web and mobile applications for startups."
+      />
+      </Helmet>
       <Background3D intensity="low" />
       {/* Hero Section */}
       <section className="py-20 px-4">
