@@ -9,19 +9,12 @@ export default defineConfig({
     htmlPrerender({
       staticDir: path.resolve(__dirname, "dist"),
       routes: ["/", "/about", "/projects", "/feedback", "/contact"],
-      selector: "main", // renders content inside <main> tag
-      minify: {
-        collapseWhitespace: true,
-        decodeEntities: true,
-        keepClosingSlash: true,
-        sortAttributes: true,
-      },
+      selector: "main",
+      minify: true,
     }),
   ],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
+    alias: { "@": path.resolve(__dirname, "./src") },
   },
   server: {
     host: "::",
