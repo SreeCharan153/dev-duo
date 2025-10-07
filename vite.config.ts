@@ -1,23 +1,22 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { htmlPrerender } from "vite-plugin-html-prerender";
 
 export default defineConfig({
   plugins: [
     react(),
-    htmlPrerender({
-      staticDir: path.resolve(__dirname, "dist"),
-      routes: ["/", "/about", "/projects", "/feedback", "/contact"],
-      selector: "main",
-      minify: true,
-    }),
+    // Removed htmlPrerender to avoid Puppeteer issues and build hangs
   ],
   resolve: {
-    alias: { "@": path.resolve(__dirname, "./src") },
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
   },
   server: {
     host: "::",
     port: 8080,
+  },
+  build: {
+    outDir: "dist",
   },
 });
