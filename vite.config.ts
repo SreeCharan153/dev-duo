@@ -4,15 +4,12 @@ import path from "path";
 import prerender from "vite-plugin-prerender";
 
 export default defineConfig({
-  server: {
-    host: "::",
-    port: 8080,
-  },
   plugins: [
     react(),
     prerender({
-      staticDir: path.join(__dirname, "dist"),
-      routes: ["/", "/about","/projects","/feedback", "/contact"], // add all your static routes
+      routes: ["/", "/about", "/projects", "/feedback", "/contact"],
+      staticDir: path.resolve(__dirname, "dist"),
+      captureAfterDocumentEvent: "render-complete", // ✅ updated property
     }),
   ],
   resolve: {
@@ -20,11 +17,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
+  server: {
+    host: "::",
+    port: 8080,
   },
 });
